@@ -38,8 +38,8 @@ public class ControllerTerritorio {
     }
 
 
-    @GetMapping("/getById/{id}")
-    public Territorio getTerritorioById(@PathVariable Long id) {
+    @GetMapping("/findById/{id}")
+    public Territorio findById(@PathVariable Long id) {
         if (repositoryTerritorio.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Territorio non presente");
         }

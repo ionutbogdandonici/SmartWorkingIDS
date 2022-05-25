@@ -46,7 +46,7 @@ public class ControllerTappa {
     }
 
     @PutMapping("/update/{idTappa}")
-    public ResponseEntity<Tappa> updateTappa(@PathVariable("idTappa") Long idTappa, @RequestBody Tappa tappa) {
+    public ResponseEntity<Tappa> update(@PathVariable("idTappa") Long idTappa, @RequestBody Tappa tappa) {
         Tappa tappaToUpdate = repositoryTappa.findById(idTappa).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tappa non trovata"));
         tappaToUpdate.setNome(tappa.getNome());
         tappaToUpdate.setDescrizione(tappa.getDescrizione());

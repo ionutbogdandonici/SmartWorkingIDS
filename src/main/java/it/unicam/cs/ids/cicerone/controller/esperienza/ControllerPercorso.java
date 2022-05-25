@@ -9,6 +9,7 @@ import it.unicam.cs.ids.cicerone.repository.territoriale.RepositoryArea;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,7 +29,7 @@ public class ControllerPercorso {
 
     @PostMapping("/add")
     public void addPercorso(@RequestBody Percorso percorso) {
-        log.info("Aggiungo il percorso {} ", percorso);
+        repositoryPercorso.findById(percorso.getIdPercorso()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Percorso non trovato"));
         repositoryPercorso.save(percorso);
     }
 
@@ -49,6 +50,16 @@ public class ControllerPercorso {
         Tappa _tappa = repositoryTappa.findById(tappa.getIdTappa()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tappa non trovata"));
         percorso.addTappa(_tappa);
         repositoryPercorso.save(percorso);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Percorso> updatePercorso(@PathVariable("id") Long id, @RequestBody Percorso percorso) {
+        Percorso _percorso = repositoryPercorso.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Percorso non trovato"));
+        _percorso.setDescrizione(percorso.getDescrizione());
+        _percorso.setArea(percorso.getArea());
+        _percorso.setNome(percorso.getNome());
+        _percorso.setTappe(percorso.getTappe());
+        return ResponseEntity.ok(repositoryPercorso.save(_percorso));
     }
 
     @PutMapping("/removeTappa/{idPercorso}")

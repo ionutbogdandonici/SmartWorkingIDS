@@ -7,4 +7,4 @@ Iterazione 1:
 
 
 Iterazione 2:
-- Analisi del concetto di utente
+- Analisi del concetto di utente, aggiunta FrontEnd

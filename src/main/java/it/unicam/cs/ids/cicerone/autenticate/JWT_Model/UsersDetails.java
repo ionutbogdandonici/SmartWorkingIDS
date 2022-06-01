@@ -39,7 +39,6 @@ public class UsersDetails implements UserDetails {
             return associazione.getPassword();
         }
         return null;
-
     }
 
     @Override
@@ -51,7 +50,7 @@ public class UsersDetails implements UserDetails {
         }else if(this.associazione != null){
             return associazione.getUsername();
         }
-        return this.turista.getUsername();
+        return null;
     }
 
     @Override

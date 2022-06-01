@@ -62,4 +62,5 @@ public class Esperienza {
             inverseJoinColumns = @JoinColumn(name = "id_tag"))
     private List<Tag> tags;
 
+
 }

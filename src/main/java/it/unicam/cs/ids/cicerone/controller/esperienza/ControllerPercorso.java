@@ -1,4 +1,4 @@
-package esperienza;
+package it.unicam.cs.ids.cicerone.controller.esperienza;
 
 import it.unicam.cs.ids.cicerone.model.esperienza.Percorso;
 import it.unicam.cs.ids.cicerone.model.esperienza.Tappa;

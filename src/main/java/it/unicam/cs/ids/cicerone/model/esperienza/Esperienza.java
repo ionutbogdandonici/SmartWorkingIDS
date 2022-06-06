@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.cicerone.model.esperienza;
 
 import it.unicam.cs.ids.cicerone.model.territoriale.Area;
+import it.unicam.cs.ids.cicerone.model.users.Associazione;
+import it.unicam.cs.ids.cicerone.model.users.Cicerino;
 import it.unicam.cs.ids.cicerone.model.utility.Tag;
 import lombok.Data;
 
@@ -55,6 +57,14 @@ public class Esperienza {
 
     @Column(name ="giorniRiservatezzaPosti", nullable = false)
     private int giorniRiservatezzaPosti;
+
+    @ManyToOne
+    @JoinColumn(name="id_cicerino", nullable = false)
+    private Cicerino cicerino;
+
+    @ManyToOne
+    @JoinColumn(name="id_associazione", nullable = true)
+    private Associazione associazione;
 
     @ManyToMany
     @JoinTable(name = "tag_esperienza",

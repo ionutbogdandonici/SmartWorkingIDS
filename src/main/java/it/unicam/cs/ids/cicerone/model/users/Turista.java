@@ -11,7 +11,7 @@ import java.util.Date;
 public class Turista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_turisti", nullable = false)
+    @Column(name = "id_turista", nullable = false)
     private Long IdTurista;
     @Column(name = "username", nullable = false)
     private String username;

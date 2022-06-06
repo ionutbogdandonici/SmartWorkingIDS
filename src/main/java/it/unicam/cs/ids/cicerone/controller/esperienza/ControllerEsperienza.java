@@ -1,4 +1,4 @@
-package esperienza;
+package it.unicam.cs.ids.cicerone.controller.esperienza;
 
 import it.unicam.cs.ids.cicerone.model.esperienza.Esperienza;
 import it.unicam.cs.ids.cicerone.model.territoriale.Area;

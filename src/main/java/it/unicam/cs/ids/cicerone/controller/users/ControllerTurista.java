@@ -23,12 +23,6 @@ public class ControllerTurista {
     @Autowired
     private RepositoryTurista repositoryTurista;
 
-    @Autowired
-    private RepositoryEsperienza repositoryEsperienza;
-
-    @Autowired
-    private RepositoryPrenotazione repositoryPrenotazione;
-
     @PostMapping("/add")
     public void addTurista(@RequestBody Turista turista) {
         repositoryTurista.save(turista);
@@ -40,7 +34,7 @@ public class ControllerTurista {
     }
 
     @PutMapping("/update/{idTurista}")
-     public ResponseEntity<Turista> updateTurista(@PathVariable("idTurista") Long idTurista, @RequestBody Turista turista) {
+    public ResponseEntity<Turista> updateTurista(@PathVariable("idTurista") Long idTurista, @RequestBody Turista turista) {
         Turista turistaToUpdate = repositoryTurista.findById(idTurista).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Turista non trovato"));
         turistaToUpdate.setNome(turista.getNome());
         turistaToUpdate.setCognome(turista.getCognome());
@@ -49,18 +43,6 @@ public class ControllerTurista {
         turistaToUpdate.setEmail(turista.getEmail());
         turistaToUpdate.setPassword(new BCryptPasswordEncoder().encode(turista.getPassword()));
         return ResponseEntity.ok(repositoryTurista.save(turistaToUpdate));
-    }
-
-    @PostMapping("/prenotaEsperienza/{idTurista}")
-    public ResponseEntity<Prenotazione> prenotaEsperienza(@PathVariable("idTurista") Long idTurista,@RequestBody Esperienza esperienza){
-        Esperienza esperienzaToInsert = repositoryEsperienza.findById(esperienza.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Esperienza non trovata"));
-        Turista turistaToInsert = repositoryTurista.findById(idTurista).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Turista non trovato"));
-        Prenotazione newPrenotazione = new Prenotazione();
-        newPrenotazione.setEsperienza(esperienzaToInsert);
-        newPrenotazione.setTurista(turistaToInsert);
-        newPrenotazione.setStato_pagamento(StatoPagamento.IN_ATTESA);
-        return ResponseEntity.ok(repositoryPrenotazione.save(newPrenotazione));
-
     }
 
     @DeleteMapping("/delete/{idTurista}")

@@ -2,10 +2,16 @@ package it.unicam.cs.ids.cicerone.controller.esperienza;
 
 import it.unicam.cs.ids.cicerone.model.esperienza.Esperienza;
 import it.unicam.cs.ids.cicerone.model.territoriale.Area;
+import it.unicam.cs.ids.cicerone.model.users.Turista;
+import it.unicam.cs.ids.cicerone.model.utility.Prenotazione;
+import it.unicam.cs.ids.cicerone.model.utility.StatoPagamento;
 import it.unicam.cs.ids.cicerone.repository.esperienza.RepositoryEsperienza;
 import it.unicam.cs.ids.cicerone.repository.territoriale.RepositoryArea;
+import it.unicam.cs.ids.cicerone.repository.users.RepositoryTurista;
+import it.unicam.cs.ids.cicerone.repository.utility.RepositoryPrenotazione;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,6 +21,11 @@ import java.util.List;
 @RequestMapping("/esperienze")
 public class ControllerEsperienza {
 
+    @Autowired
+    private RepositoryTurista repositoryTurista;
+
+    @Autowired
+    private RepositoryPrenotazione repositoryPrenotazione;
     @Autowired
     private RepositoryEsperienza repositoryEsperienza;
     @Autowired
@@ -59,5 +70,17 @@ public class ControllerEsperienza {
     public void deleteEsperienza(@PathVariable("idEsperienza") Long idEsperienza) {
         Esperienza esperienzaToDelete = repositoryEsperienza.findById(idEsperienza).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Esperienza non trovata"));
         repositoryEsperienza.delete(esperienzaToDelete);
+    }
+
+    @PostMapping("/prenotaEsperienza/{idEsperienza}")
+    public ResponseEntity<Prenotazione> prenotaEsperienza(@PathVariable("idEsperienza") Long idEsperienza, @RequestBody Turista turista){
+        Esperienza esperienzaToInsert = repositoryEsperienza.findById(idEsperienza).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Esperienza non trovata"));
+        Turista turistaToInsert = repositoryTurista.findById(turista.getIdTurista()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Turista non trovato"));
+        Prenotazione newPrenotazione = new Prenotazione();
+        newPrenotazione.setEsperienza(esperienzaToInsert);
+        newPrenotazione.setTurista(turistaToInsert);
+        newPrenotazione.setStato_pagamento(StatoPagamento.IN_ATTESA);
+        return ResponseEntity.ok(repositoryPrenotazione.save(newPrenotazione));
+
     }
 }

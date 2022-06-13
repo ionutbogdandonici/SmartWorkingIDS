@@ -4,6 +4,7 @@ import it.unicam.cs.ids.cicerone.model.esperienza.Esperienza;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tags")
@@ -22,5 +23,5 @@ public class Tag {
     @JoinTable(name="tag_esperienza",
             joinColumns=@JoinColumn(name="id_tag"),
             inverseJoinColumns=@JoinColumn(name="id_esperienza"))
-    private java.util.List<Esperienza> esperienze;
+    private List<Esperienza> esperienze;
 }

@@ -50,4 +50,6 @@ public class ControllerTurista {
         Turista turistaToDelete = repositoryTurista.findById(idTurista).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Turista non trovato"));
         repositoryTurista.delete(turistaToDelete);
     }
+
+
 }

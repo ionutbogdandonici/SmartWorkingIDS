@@ -19,6 +19,9 @@ public class Tag {
     @Column(name = "nome", nullable = false)
     private String nome;
 
+    @Column(name = "abled", nullable = false)
+    private boolean abled;
+
     @ManyToMany
     @JoinTable(name="tag_esperienza",
             joinColumns=@JoinColumn(name="id_tag"),

@@ -2,6 +2,7 @@ package it.unicam.cs.ids.cicerone.model.users;
 
 import it.unicam.cs.ids.cicerone.model.esperienza.Esperienza;
 import it.unicam.cs.ids.cicerone.model.territoriale.Territorio;
+import it.unicam.cs.ids.cicerone.model.utility.GiorniSettimana;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -35,6 +36,10 @@ public class Cicerino {
     @ManyToOne
     @JoinColumn(name = "id_gruppo", nullable = true)
     private Gruppo gruppo;
+
+    @ManyToMany
+    @JoinTable(name="disponibilita_cicerino")
+    private List<GiorniSettimana> giorniSettimana;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Esperienza> esperienzaCreata;

@@ -4,6 +4,7 @@ import it.unicam.cs.ids.cicerone.model.users.Associazione;
 import it.unicam.cs.ids.cicerone.model.users.Cicerino;
 import it.unicam.cs.ids.cicerone.model.users.Gruppo;
 import it.unicam.cs.ids.cicerone.model.users.Turista;
+import it.unicam.cs.ids.cicerone.model.utility.GiorniSettimana;
 import it.unicam.cs.ids.cicerone.repository.users.RepositoryAssociazione;
 import it.unicam.cs.ids.cicerone.repository.users.RepositoryCicerino;
 import it.unicam.cs.ids.cicerone.repository.users.RepositoryGruppo;
@@ -84,6 +85,13 @@ public class ControllerCicerino {
     public ResponseEntity<Cicerino> ableCicerino(@PathVariable("idCicerino") Long idCicerino) {
         Cicerino cicerinoToUpdate = repositoryCicerino.findById(idCicerino).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cicerino non trovato"));
         cicerinoToUpdate.setVerificato(true);
+        return ResponseEntity.ok(repositoryCicerino.save(cicerinoToUpdate));
+    }
+
+    @PostMapping("impostaDisponibilita/{idCicerino}")
+    public ResponseEntity<Cicerino> impostaDisponibilita(@PathVariable("idCicerino") Long idCicerino, @RequestBody List<GiorniSettimana> giorniSettimana) {
+        Cicerino cicerinoToUpdate = repositoryCicerino.findById(idCicerino).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cicerino non trovato"));
+        cicerinoToUpdate.setGiorniSettimana(giorniSettimana);
         return ResponseEntity.ok(repositoryCicerino.save(cicerinoToUpdate));
     }
 

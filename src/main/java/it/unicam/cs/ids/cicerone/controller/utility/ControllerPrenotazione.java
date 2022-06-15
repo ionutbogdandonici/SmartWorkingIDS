@@ -1,7 +1,9 @@
 package it.unicam.cs.ids.cicerone.controller.utility;
 
+import it.unicam.cs.ids.cicerone.model.esperienza.Esperienza;
 import it.unicam.cs.ids.cicerone.model.utility.Prenotazione;
 import it.unicam.cs.ids.cicerone.model.utility.StatoPagamento;
+import it.unicam.cs.ids.cicerone.repository.esperienza.RepositoryEsperienza;
 import it.unicam.cs.ids.cicerone.repository.users.RepositoryTurista;
 import it.unicam.cs.ids.cicerone.repository.utility.RepositoryPrenotazione;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ public class ControllerPrenotazione {
 
     @Autowired
     RepositoryPrenotazione repositoryPrenotazione;
+    @Autowired
+    RepositoryEsperienza repositoryEsperienza;
 
     @Autowired
     RepositoryTurista repositoryTurista;
@@ -36,5 +40,12 @@ public class ControllerPrenotazione {
         Prenotazione prenotazioneToUpdate = repositoryPrenotazione.findById(idPrenotazione).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prenotazione non trovata"));
         prenotazioneToUpdate.setStato_pagamento(statoPagamento);
         repositoryPrenotazione.save(prenotazioneToUpdate);
+    }
+
+    @GetMapping("/checkPostiDisponibili/{idPrenotazione}")
+    public Boolean checkPostiDisponibili(@PathVariable("idPrenotazione") Long idPrenotazione) {
+        Prenotazione prenotazione = repositoryPrenotazione.findById(idPrenotazione).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prenotazione non trovata"));
+        Esperienza esperienza = repositoryEsperienza.findById(prenotazione.getEsperienza().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Esperienza non trovata"));
+        return (esperienza.getPostiMax() - esperienza.getPostiRiservati() >= prenotazione.getNumeroPosti());
     }
 }

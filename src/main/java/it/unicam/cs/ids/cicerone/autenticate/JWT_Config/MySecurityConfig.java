@@ -48,7 +48,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/newTurista","/newCicerino","/newAssociazione", "/esperienze/**", "/percorsi/**", "/regioni/**", "/tappe/**", "/aree/**", "/territori/**").permitAll()
+                .antMatchers("/login", "/newTurista","/newCicerino","/newAssociazione", "/esperienze/**", "/percorsi/**", "/regioni/**", "/tappe/**", "/aree/**", "/territori/**","/esperienze/**","/cicerini/**", "/turisti/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
 

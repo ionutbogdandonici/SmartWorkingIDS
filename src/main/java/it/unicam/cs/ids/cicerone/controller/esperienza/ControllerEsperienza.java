@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -33,7 +35,7 @@ public class ControllerEsperienza {
     @Autowired
     private RepositoryArea repositoryArea;
 
-    @GetMapping("{idEsperienza}/")
+    @GetMapping("{idEsperienza}")
     public Esperienza getEsperienza(@PathVariable("idEsperienza") Long idEsperienza) {
         return repositoryEsperienza.findById(idEsperienza).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Esperienza non trovata"));
     }
@@ -87,6 +89,8 @@ public class ControllerEsperienza {
         newPrenotazione.setEsperienza(esperienzaToInsert);
         newPrenotazione.setTurista(turistaToInsert);
         newPrenotazione.setStato_pagamento(StatoPagamento.IN_ATTESA);
+        java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        newPrenotazione.setDataPrenotazione(date);
         return ResponseEntity.ok(repositoryPrenotazione.save(newPrenotazione));
     }
 

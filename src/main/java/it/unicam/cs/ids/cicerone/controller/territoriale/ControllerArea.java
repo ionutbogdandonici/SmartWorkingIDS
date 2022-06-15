@@ -65,4 +65,12 @@ public class ControllerArea {
         }
         repositoryArea.deleteById(id);
     }
+
+    @GetMapping("/findById/{idArea}")
+    public Area findById(@PathVariable("idArea") Long idArea) {
+        if(repositoryArea.findById(idArea).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Area non presente");
+        }
+        return repositoryArea.findById(idArea).orElse(null);
+    }
 }

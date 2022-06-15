@@ -1,10 +1,12 @@
 package it.unicam.cs.ids.cicerone.model.users;
 
 
+import it.unicam.cs.ids.cicerone.model.esperienza.Esperienza;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "associazioni")
@@ -28,4 +30,6 @@ public class Associazione {
     private String password;
     @Column(name = "verificato", nullable = false)
     private Boolean verificato;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Esperienza> esperienzaCreata;
 }

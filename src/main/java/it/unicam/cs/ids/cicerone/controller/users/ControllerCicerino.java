@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cicerini")
@@ -68,4 +69,22 @@ public class ControllerCicerino {
         Cicerino cicerinoToDelete = repositoryCicerino.findById(idCicerino).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cicerino non trovato"));
         repositoryCicerino.delete(cicerinoToDelete);
     }
+
+    @GetMapping("/getAllCiceriniNotAbled")
+    public List<Cicerino> getAllCiceriniNotAbled() {
+        return repositoryCicerino.findAll().stream().filter(cicerino -> !cicerino.getVerificato()).collect(Collectors.toList());
+    }
+
+    @GetMapping("{idCicerino}")
+    public Cicerino getCicerinoById(@PathVariable("idCicerino") Long idCicerino) {
+        return repositoryCicerino.findById(idCicerino).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cicerino non trovato"));
+    }
+
+    @PutMapping("/able/{idCicerino}")
+    public ResponseEntity<Cicerino> ableCicerino(@PathVariable("idCicerino") Long idCicerino) {
+        Cicerino cicerinoToUpdate = repositoryCicerino.findById(idCicerino).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cicerino non trovato"));
+        cicerinoToUpdate.setVerificato(true);
+        return ResponseEntity.ok(repositoryCicerino.save(cicerinoToUpdate));
+    }
+
 }

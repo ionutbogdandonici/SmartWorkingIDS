@@ -1,10 +1,12 @@
 package it.unicam.cs.ids.cicerone.model.users;
 
+import it.unicam.cs.ids.cicerone.model.esperienza.Esperienza;
 import it.unicam.cs.ids.cicerone.model.territoriale.Territorio;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "cicerini")
@@ -34,4 +36,6 @@ public class Cicerino {
     @JoinColumn(name = "id_gruppo", nullable = true)
     private Gruppo gruppo;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Esperienza> esperienzaCreata;
 }

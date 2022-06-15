@@ -6,6 +6,7 @@ import it.unicam.cs.ids.cicerone.model.utility.StatoPagamento;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "prenotazioni")
@@ -21,9 +22,12 @@ public class Prenotazione {
     @ManyToOne
     @JoinColumn(name = "id_turista", nullable = false)
     private Turista turista;
+    @Column(name = "data_prenotazione", nullable = false)
+    private Date dataPrenotazione;
+    @Column(name= "numero_posti", nullable = false)
+    private int numeroPosti;
     @Enumerated(EnumType.STRING)
     private StatoPagamento stato_pagamento;
-
 
 
 }

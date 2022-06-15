@@ -59,28 +59,6 @@ public class ControllerAssociazione {
         return ResponseEntity.ok(repositoryAssociazione.save(associazioneToUpdate));
     }
 
-    @PutMapping("/richiestaAssociazione/{idAssociazione}")
-    public ResponseEntity<Richiesta> richiestaAssociazione(@PathVariable("idAssociazione") Long idAssociazione, @RequestBody Cicerino cicerino){
-        Cicerino cicerinoToInsert = repositoryCicerino.findById(cicerino.getIdCicerino()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cicerino non trovato"));
-        Associazione associazioneToInsert = repositoryAssociazione.findById(idAssociazione).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Associazione non trovata"));
-        Richiesta richiesta = new Richiesta();
-        richiesta.setAssociazione(associazioneToInsert);
-        richiesta.setCicerino(cicerinoToInsert);
-        richiesta.setAccepted(false);
-        return ResponseEntity.ok(repositoryRichiesta.save(richiesta));
-    }
-
-    @PutMapping("/approvaRichiesta/{idAssociazione}")
-    public ResponseEntity<Richiesta> approvaRichiesta(@PathVariable("idAssociazione") Long idAssociazione, @RequestBody Richiesta richiesta){
-       Richiesta richiestaToApproved = repositoryRichiesta.findById(richiesta.getIdRichiesta()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Richiesta non trovata"));
-       Associazione associazione = richiestaToApproved.getAssociazione();
-       Cicerino cicerino = richiestaToApproved.getCicerino();
-       Gruppo gruppo = repositoryGruppo.finByAssociazione(associazione.getIdAssociazione());
-       cicerino.setGruppo(gruppo);
-       richiestaToApproved.setAccepted(true);
-       return ResponseEntity.ok(repositoryRichiesta.save(richiestaToApproved));
-    }
-
     @DeleteMapping("/delete/{idAssociazione}")
     public void deleteAssociazione(@PathVariable("idAssociazione") Long idAssociazione) {
         Associazione associazioneToDelete = repositoryAssociazione.findById(idAssociazione).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Associazione non trovato"));

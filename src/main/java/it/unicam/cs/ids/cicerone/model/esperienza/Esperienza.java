@@ -52,19 +52,14 @@ public class Esperienza {
     @Column(name = "postiInSospeso", nullable = false)
     private int postiInSospeso;
 
-    @Column(name ="scadenzaPrenotiazioni", nullable = false)
+    @Column(name = "scadenzaPrenotiazioni", nullable = false)
     private Date scadenzaPrenotazioni;
 
-    @Column(name ="giorniRiservatezzaPosti", nullable = false)
+    @Column(name = "giorniRiservatezzaPosti", nullable = false)
     private int giorniRiservatezzaPosti;
 
-    @ManyToOne
-    @JoinColumn(name="id_cicerino", nullable = false)
-    private Cicerino cicerino;
-
-    @ManyToOne
-    @JoinColumn(name="id_associazione", nullable = true)
-    private Associazione associazione;
+    @Column(name = "assegnta", nullable = true)
+    private boolean assegnata;
 
     @ManyToMany
     @JoinTable(name = "tag_esperienza",

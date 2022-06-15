@@ -7,6 +7,7 @@ import it.unicam.cs.ids.cicerone.model.utility.Prenotazione;
 import it.unicam.cs.ids.cicerone.model.utility.StatoPagamento;
 import it.unicam.cs.ids.cicerone.repository.esperienza.RepositoryEsperienza;
 import it.unicam.cs.ids.cicerone.repository.territoriale.RepositoryArea;
+import it.unicam.cs.ids.cicerone.repository.users.RepositoryAssociazione;
 import it.unicam.cs.ids.cicerone.repository.users.RepositoryTurista;
 import it.unicam.cs.ids.cicerone.repository.utility.RepositoryPrenotazione;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,20 @@ import java.util.List;
 public class ControllerEsperienza {
 
     @Autowired
+    private RepositoryAssociazione repositoryAssociazione;
+    @Autowired
     private RepositoryTurista repositoryTurista;
-
     @Autowired
     private RepositoryPrenotazione repositoryPrenotazione;
     @Autowired
     private RepositoryEsperienza repositoryEsperienza;
     @Autowired
     private RepositoryArea repositoryArea;
+
+    @GetMapping("{idEsperienza}/")
+    public Esperienza getEsperienza(@PathVariable("idEsperienza") Long idEsperienza) {
+        return repositoryEsperienza.findById(idEsperienza).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Esperienza non trovata"));
+    }
 
     @PostMapping("/add")
     public void addEsperienza(@RequestBody Esperienza esperienza) {
@@ -73,7 +80,7 @@ public class ControllerEsperienza {
     }
 
     @PostMapping("/prenotaEsperienza/{idEsperienza}")
-    public ResponseEntity<Prenotazione> prenotaEsperienza(@PathVariable("idEsperienza") Long idEsperienza, @RequestBody Turista turista){
+    public ResponseEntity<Prenotazione> prenotaEsperienza(@PathVariable("idEsperienza") Long idEsperienza, @RequestBody Turista turista) {
         Esperienza esperienzaToInsert = repositoryEsperienza.findById(idEsperienza).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Esperienza non trovata"));
         Turista turistaToInsert = repositoryTurista.findById(turista.getIdTurista()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Turista non trovato"));
         Prenotazione newPrenotazione = new Prenotazione();
@@ -81,6 +88,15 @@ public class ControllerEsperienza {
         newPrenotazione.setTurista(turistaToInsert);
         newPrenotazione.setStato_pagamento(StatoPagamento.IN_ATTESA);
         return ResponseEntity.ok(repositoryPrenotazione.save(newPrenotazione));
+    }
 
+    @GetMapping("/findById/{idEsperienza}")
+    public Esperienza findById(@PathVariable("idEsperienza") Long idEsperienza) {
+        return repositoryEsperienza.findById(idEsperienza).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Esperienza non trovata"));
+    }
+
+    @GetMapping("/generateInviteLink/{idEsperienza}")
+    public String generateInviteLink(@PathVariable("idEsperienza") Long idEsperienza) {
+        return "http://localhost:8080/esperienze/" + idEsperienza;
     }
 }

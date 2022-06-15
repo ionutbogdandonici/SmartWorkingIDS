@@ -60,5 +60,10 @@ public class ControllerTappa {
         repositoryTappa.delete(tappaToDelete);
     }
 
+    @GetMapping("/findById/{idTappa}")
+    public Tappa findById(@PathVariable("idTappa") Long idTappa) {
+        return repositoryTappa.findById(idTappa).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tappa non trovata"));
+    }
+
 
 }

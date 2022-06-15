@@ -29,7 +29,10 @@ public class ControllerPercorso {
 
     @PostMapping("/add")
     public void addPercorso(@RequestBody Percorso percorso) {
-        repositoryPercorso.findById(percorso.getIdPercorso()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Percorso non trovato"));
+        if (repositoryPercorso.findByNomeAndArea(percorso.getNome(), percorso.getArea()) != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Percorso già presente");
+        }
+        //repositoryPercorso.findById(percorso.getIdPercorso()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Percorso non trovato"));
         repositoryPercorso.save(percorso);
     }
 
@@ -73,5 +76,10 @@ public class ControllerPercorso {
     @DeleteMapping("/delete/{idPercorso}")
     public void deletePercorso(@PathVariable("idPercorso") Long idPercorso) {
         repositoryPercorso.deleteById(idPercorso);
+    }
+
+    @GetMapping("/findById/{idPercorso}")
+    public Percorso findById(@PathVariable("idPercorso") Long idPercorso) {
+        return repositoryPercorso.findById(idPercorso).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Percorso non trovato"));
     }
 }

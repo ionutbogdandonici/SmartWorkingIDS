@@ -17,4 +17,6 @@ public interface RepositoryPercorso extends JpaRepository<Percorso, Long> {
      * @return lista dei percorsi appartenenti all'area
      */
     List<Percorso> findByArea(Area area);
+
+    Percorso findByNomeAndArea(String nome, Area area);
 }

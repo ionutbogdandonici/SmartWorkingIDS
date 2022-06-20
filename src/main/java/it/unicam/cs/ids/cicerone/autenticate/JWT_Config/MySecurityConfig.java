@@ -41,14 +41,14 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .configurationSource(request -> {
                     var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:8080"));
+                    cors.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:8080", "http://localhost:3000"));
                     cors.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE", "OPTIONS"));
                     cors.setAllowedHeaders(List.of("*"));
                     return cors;
                 })
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/newTurista","/newCicerino","/newAssociazione", "/esperienze/**", "/percorsi/**", "/regioni/**", "/tappe/**", "/aree/**", "/territori/**","/esperienze/**","/cicerini/**", "/turisti/**").permitAll()
+                .antMatchers("/login", "/newTurista","/newCicerino","/newAssociazione").permitAll()
                 .anyRequest().authenticated()
                 .and()
 

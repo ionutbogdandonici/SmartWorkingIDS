@@ -50,6 +50,9 @@ public class ControllerTurista {
         Turista turistaToDelete = repositoryTurista.findById(idTurista).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Turista non trovato"));
         repositoryTurista.delete(turistaToDelete);
     }
-
+    @GetMapping("/getByUsername")
+    public Turista getTuristaByUsername(@RequestParam String username) {
+        return repositoryTurista.findByUsername(username);
+    }
 
 }

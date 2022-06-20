@@ -88,7 +88,7 @@ public class ControllerEsperienza {
         Prenotazione newPrenotazione = new Prenotazione();
         newPrenotazione.setEsperienza(esperienzaToInsert);
         newPrenotazione.setTurista(turistaToInsert);
-        newPrenotazione.setStato_pagamento(StatoPagamento.IN_ATTESA);
+        newPrenotazione.setStato_pagamento("IN ATTESA");
         java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         newPrenotazione.setDataPrenotazione(date);
         return ResponseEntity.ok(repositoryPrenotazione.save(newPrenotazione));

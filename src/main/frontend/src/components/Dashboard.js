@@ -79,7 +79,7 @@ const Dashboard = ({ navigationLinks, userNavigationLinks, user }) => {
                                         <img className="h-10 w-10 rounded-full" src="https://picsum.photos/200" alt="Profile_Image"/>
                                     </div>
                                     <div className="ml-3">
-                                        <div className="text-base font-medium text-white">{user.name}</div>
+                                        <div className="text-base font-medium text-white">{user.nome}</div>
                                         <div className="text-sm font-normal text-green-300">{user.email}</div>
                                     </div>
                                 </div>

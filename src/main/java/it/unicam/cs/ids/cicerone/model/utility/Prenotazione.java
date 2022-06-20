@@ -26,8 +26,8 @@ public class Prenotazione {
     private Date dataPrenotazione;
     @Column(name= "numero_posti", nullable = false)
     private int numeroPosti;
-    @Enumerated(EnumType.STRING)
-    private StatoPagamento stato_pagamento;
+    @Column(name="stato_pagamento", nullable=false)
+    private String stato_pagamento;
 
 
 }

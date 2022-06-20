@@ -11,7 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-@RequestMapping("prenotazioni")
+import java.util.List;
+
+@RestController
+@RequestMapping("/prenotazioni")
 public class ControllerPrenotazione {
 
     @Autowired
@@ -27,6 +30,11 @@ public class ControllerPrenotazione {
         repositoryPrenotazione.save(prenotazione);
     }
 
+    @GetMapping("/all")
+    public List<Prenotazione> getAllPrenotazioni() {
+        return repositoryPrenotazione.findAll();
+    }
+
     @PutMapping("{idPrenotazione}/addPartecipante")
     public Boolean addPartecipante(@PathVariable("idPrenotazione") Long idPrenotazione, @RequestBody Long idTurista) {
         Prenotazione prenotazione = repositoryPrenotazione.findById(idPrenotazione).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prenotazione non trovata"));
@@ -38,7 +46,7 @@ public class ControllerPrenotazione {
     @PutMapping("/update/{idPrenotazione}")
     public void updateStatoPrenotazione(@PathVariable("idPrenotazione") Long idPrenotazione, @RequestBody StatoPagamento statoPagamento) {
         Prenotazione prenotazioneToUpdate = repositoryPrenotazione.findById(idPrenotazione).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prenotazione non trovata"));
-        prenotazioneToUpdate.setStato_pagamento(statoPagamento);
+        prenotazioneToUpdate.setStato_pagamento(prenotazioneToUpdate.getStato_pagamento());
         repositoryPrenotazione.save(prenotazioneToUpdate);
     }
 
@@ -47,5 +55,10 @@ public class ControllerPrenotazione {
         Prenotazione prenotazione = repositoryPrenotazione.findById(idPrenotazione).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prenotazione non trovata"));
         Esperienza esperienza = repositoryEsperienza.findById(prenotazione.getEsperienza().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Esperienza non trovata"));
         return (esperienza.getPostiMax() - esperienza.getPostiRiservati() >= prenotazione.getNumeroPosti());
+    }
+
+    @GetMapping("getPrenotazioneById/{idPrenotazione}")
+    public Prenotazione getPrenotazioneById(@PathVariable("idPrenotazione") Long idPrenotazione) {
+        return repositoryPrenotazione.findById(idPrenotazione).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prenotazione non trovata"));
     }
 }
